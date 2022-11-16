@@ -6,16 +6,13 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 const login = async (username, password) => {
   const res = await axios
     .post('user/login', { username: username, password: password });
-  if (res.data.success === 'true') {
+
+  if (res.data.status === true) {
     const token = res.data.jwt_token
-    localStorage.setItem('token', token);
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    localStorage.setItem('token', token);
   }
   return res.data;
-}
-
-const logout = () => {
-  localStorage.removeItem('token')
 }
 
 const register = async (username, email, password) => {
@@ -24,5 +21,5 @@ const register = async (username, email, password) => {
   return res.data;
 }
 
-const exports = { login, logout, register }
+const exports = { login, register }
 export default exports;

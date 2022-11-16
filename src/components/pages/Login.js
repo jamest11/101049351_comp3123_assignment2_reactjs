@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import { Navigate, Link } from 'react-router-dom';
-import AuthService from "../../services/AuthService";
+import AuthService from '../../services/AuthService';
 import { useAuth } from "../security/AuthProvider";
 
 const Login = () => {
@@ -31,14 +31,11 @@ const Login = () => {
 
   useEffect(() => {
     document.title = 'Login';  
-  });
-
+  }, []);
+  
 
   if(token) {
     return <Navigate to="/home" replace />
-  }
-  else if(localStorage.getItem('token')) {
-    onLogin(localStorage.getItem('token'));
   }
 
   return (

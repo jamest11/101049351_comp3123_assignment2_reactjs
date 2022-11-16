@@ -5,7 +5,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
 
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const navigate = useNavigate();
 
   const handleLogin = (jwt_token) => {

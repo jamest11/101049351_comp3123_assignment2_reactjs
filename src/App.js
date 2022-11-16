@@ -5,7 +5,7 @@ import ProtectedRoute from './components/security/ProtectedRoute';
 import AuthProvider from './components/security/AuthProvider';
 import './App.css';
 
-function App() {
+const App = () => {
 
   return (
     <div className="App">
