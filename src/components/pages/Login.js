@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import AuthService from '../../services/AuthService';
 import { useAuth } from "../security/AuthProvider";
 
 const Login = () => {
-
+  useEffect(() => {
+    document.title = 'Login';  
+  }, []);
+  
   const { token, onLogin } = useAuth();
 
   const [message, setMessage] = useState();
@@ -19,7 +22,7 @@ const Login = () => {
     event.preventDefault();
     AuthService.login(formData.username, formData.password)
       .then(data => onLogin(data.jwt_token))
-      .catch(err => setMessage(err.response.data.message))
+      .catch(err => setMessage(err.response.data.message));
   };
 
   const handleChange = (event) => {
@@ -29,18 +32,12 @@ const Login = () => {
     }));
   };
 
-  useEffect(() => {
-    document.title = 'Login';  
-  }, []);
-  
-
   if(token) {
-    return <Navigate to="/home" replace />
+    return (<Navigate to="/" replace />);
   }
 
   return (
     <div>
-      <Link to="/home">Home</Link>
       <form onSubmit={handleSubmit}>
         <input
           name= "username"
@@ -65,6 +62,6 @@ const Login = () => {
       
     </div>
   );
-}
+};
 
-export default Login
+export default Login;

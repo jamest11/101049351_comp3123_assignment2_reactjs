@@ -1,16 +1,10 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../security/AuthProvider';
-import DataService from '../../services/DataService';
+import EmployeeList from './EmployeeList';
 
 const Home = () => {
-  const { token, onLogout } = useAuth();
-
-  const handleClick = (event) => {
-    DataService.getEmployees()
-      .then(data => console.log(data))
-      .catch(() => onLogout())
-  }
+  const { onLogout } = useAuth();
 
   useEffect(() => {
     document.title = 'Home';  
@@ -18,13 +12,9 @@ const Home = () => {
 
   return (
     <div>
-      Token: {token}
-      <br/>
-      <Link to="/">Login</Link>
-      <br/>
       <Link onClick={onLogout}>Logout</Link>
-      <br/>
-      <Link onClick={ handleClick }>Get Employees</Link>
+      <h2>Employees</h2>
+      <EmployeeList />
     </div>
   );
 };

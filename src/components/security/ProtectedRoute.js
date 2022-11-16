@@ -3,6 +3,7 @@ import { useAuth } from "./AuthProvider";
 
 const ProtectedRoute = ({ children }) => {
   const { token } = useAuth();
+
   if (!token) {
     return <Navigate to="/login" replace />;
   }
