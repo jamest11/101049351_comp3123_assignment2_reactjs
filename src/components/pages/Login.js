@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, Link } from 'react-router-dom';
-import authService from "../../services/AuthService";
+import AuthService from "../../services/AuthService";
 import { useAuth } from "../security/AuthProvider";
 
 const Login = () => {
@@ -17,7 +17,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    authService.login(formData.username, formData.password)
+    AuthService.login(formData.username, formData.password)
       .then(data => onLogin(data.jwt_token))
       .catch(err => setMessage(err.response.data.message))
   };
