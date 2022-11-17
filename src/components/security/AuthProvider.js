@@ -7,7 +7,10 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
 
   const [token, setToken] = useState(localStorage.getItem('token'));
-  axios.defaults.headers.get['Authorization'] = `Bearer ${token}`;
+
+  if(token){
+    axios.defaults.headers.get['Authorization'] = `Bearer ${token}`;
+  }
 
   /*useEffect(() => {
     const token = localStorage.getItem('token');
