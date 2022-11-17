@@ -2,6 +2,8 @@ import React, { useState, useEffect} from 'react';
 import DataService from '../../services/DataService';
 
 const EmployeeList = () => {
+  const [employees, setEmployees] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -13,8 +15,6 @@ const EmployeeList = () => {
     };
     fetchData();
   }, []);
-
-  const [employees, setEmployees] = useState([]);
 
   return (
     <ul>

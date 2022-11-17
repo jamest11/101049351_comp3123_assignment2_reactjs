@@ -15,7 +15,7 @@ const App = () => {
             element={
               <ProtectedRoute><Home /></ProtectedRoute>
             } />
-          <Route path="/login" element={<Login  replace />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </AuthProvider>
     </div>

@@ -4,19 +4,23 @@ import AuthService from '../../services/AuthService';
 import { useAuth } from "../security/AuthProvider";
 
 const Login = () => {
+
   useEffect(() => {
     document.title = 'Login';  
   }, []);
   
   const { token, onLogin } = useAuth();
-
+  
   const [message, setMessage] = useState();
-
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: ''
   });
+
+  if(token) {
+    return (<Navigate to="/" replace />);
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,10 +35,6 @@ const Login = () => {
       [event.target.name]: event.target.value
     }));
   };
-
-  if(token) {
-    return (<Navigate to="/" replace />);
-  }
 
   return (
     <div>

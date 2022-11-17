@@ -5,18 +5,11 @@ import axios from 'axios';
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   if(token){
     axios.defaults.headers.get['Authorization'] = `Bearer ${token}`;
   }
-
-  /*useEffect(() => {
-    const token = localStorage.getItem('token');
-    setToken(token);
-    axios.defaults.headers.get['Authorization'] = `Bearer ${token}`
-  }, []);*/
 
   const navigate = useNavigate();
 
@@ -24,7 +17,6 @@ const AuthProvider = ({ children }) => {
     setToken(jwt_token);
     localStorage.setItem('token', jwt_token);
     axios.defaults.headers.get['Authorization'] = `Bearer ${jwt_token}`;
-    
     navigate('/');
   };
 
@@ -53,3 +45,9 @@ const useAuth = () => {
 
 export default AuthProvider;
 export { useAuth };
+
+  /*useEffect(() => {
+    const token = localStorage.getItem('token');
+    setToken(token);
+    axios.defaults.headers.get['Authorization'] = `Bearer ${token}`
+  }, []);*/

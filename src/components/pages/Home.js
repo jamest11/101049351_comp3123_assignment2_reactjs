@@ -4,11 +4,12 @@ import { useAuth } from '../security/AuthProvider';
 import EmployeeList from './EmployeeList';
 
 const Home = () => {
-  const { onLogout } = useAuth();
 
   useEffect(() => {
     document.title = 'Home';  
   }, []);
+
+  const { onLogout } = useAuth();
 
   return (
     <div>
