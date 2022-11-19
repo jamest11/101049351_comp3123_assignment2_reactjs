@@ -23,7 +23,7 @@ const App = () => {
               <ProtectedRoute><EmployeeForm /></ProtectedRoute>
             } />
           <Route
-            path="edit-employee/:eid"
+            path="update-employee/:eid"
             element={
               <ProtectedRoute><EmployeeForm /></ProtectedRoute>
             } />

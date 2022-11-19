@@ -8,32 +8,27 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   if(token){
-    apiService.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    apiService.setAuthHeader(token);
   }
 
   const navigate = useNavigate();
 
-  const handleLogin = (jwt_token) => {
-    setToken(jwt_token);
-    localStorage.setItem('token', jwt_token);
-    apiService.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${jwt_token}`;
+  const handleLogin = (token) => {
+    setToken(token);
+    localStorage.setItem('token', token);
+    apiService.setAuthHeader(token);
     navigate('/');
   };
 
   const handleLogout = (msg) => {
-    localStorage.removeItem('token');
     setToken(null);
+    localStorage.removeItem('token');
+    apiService.setAuthHeader();
     navigate('/login');
   };
 
-  const value = {
-    token,
-    onLogin: handleLogin,
-    onLogout: handleLogout,
-  };
-
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ token, handleLogin, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -45,9 +40,3 @@ const useAuth = () => {
 
 export default AuthProvider;
 export { useAuth };
-
-  /*useEffect(() => {
-    const token = localStorage.getItem('token');
-    setToken(token);
-    axios.defaults. headers.common['Authorization'] = `Bearer ${token}`
-  }, []);*/

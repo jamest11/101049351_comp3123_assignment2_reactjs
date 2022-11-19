@@ -8,14 +8,10 @@ const EmployeeView = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const res = await apiService.getEmployee(eid);
-        setEmployee(res.data);
-      } catch(err) {
-        console.log(err);
-      }
+      const res = await apiService.getEmployee(eid);
+      setEmployee(res.data);
     };
-    fetchData();
+    fetchData().catch(console.error);
   }, [eid]);
 
   return (

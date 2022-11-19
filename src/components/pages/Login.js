@@ -9,7 +9,7 @@ const Login = () => {
     document.title = 'Login';  
   }, []);
   
-  const { token, onLogin } = useAuth();
+  const { token, handleLogin } = useAuth();
   
   const [message, setMessage] = useState();
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     apiService.login(formData.username, formData.password)
-      .then(res => onLogin(res.data.jwt_token))
+      .then(res => handleLogin(res.data.jwt_token))
       .catch(err => setMessage(err.response.data.message));
   };
 

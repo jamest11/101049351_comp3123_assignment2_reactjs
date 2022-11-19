@@ -12,19 +12,15 @@ const EmployeeForm = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const res = await apiService.getEmployee(eid);
-        setFormData({ 
-          first_name: res.data.first_name, 
-          last_name: res.data.last_name,
-          email: res.data.email
-        });
-      } catch(err) {
-        console.log(err);
-      }
+      const res = await apiService.getEmployee(eid);
+      setFormData({ 
+        first_name: res.data.first_name, 
+        last_name: res.data.last_name,
+        email: res.data.email
+      });
     };
     if(eid){
-      fetchData();
+      fetchData().catch(console.error);
     }
   }, [eid]);
 
@@ -44,7 +40,8 @@ const EmployeeForm = () => {
         .then(() => navigate('/', { state: { message: 'Updated employee' } }))
         .catch(err => console.log(err));
 
-    } else {
+    } 
+    else {
       apiService.addEmployee(formData)
         .then(() => navigate('/', { state: { message: 'Added new employee' } }))
         .catch(err => console.log(err));

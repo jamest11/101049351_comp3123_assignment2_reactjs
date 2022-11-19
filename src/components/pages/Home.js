@@ -10,12 +10,12 @@ const Home = () => {
     document.title = 'Home';  
   }, []);
 
-  const { onLogout } = useAuth();
+  const { handleLogout } = useAuth();
 
   return (
     <div>
       <Link to="add-employee">Add Employee</Link>
-      <Link onClick={() => onLogout('Logged out')}>Logout</Link>
+      <Link onClick={() => handleLogout('Logged out')}>Logout</Link>
       { location.state && location.state.message && (
           <div>{location.state.message}</div>
       )}

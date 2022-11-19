@@ -7,32 +7,20 @@ const EmployeeList = () => {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    try {
-      const res = await apiService.getEmployees();
-      setEmployees(res.data);
-    } catch(err) {
-      console.log(err);
-    }
+    const res = await apiService.getEmployees();
+    setEmployees(res.data);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await apiService.getEmployees();
-        setEmployees(res.data);
-      } catch(err) {
-        console.log(err);
-      }
-    };
-    fetchData();
+    fetchData().catch(console.error);
   }, []);
 
   const handleClick = (event) => {
     if(event.target.name === 'view') {
       navigate(`view-employee/${event.target.value}`);
     }
-    else if (event.target.name === 'edit') {
-      navigate(`edit-employee/${event.target.value}`);
+    else if (event.target.name === 'update') {
+      navigate(`update-employee/${event.target.value}`);
     }
     else if (event.target.name === 'delete') {
       apiService.deleteEmployee(event.target.value)
@@ -59,7 +47,7 @@ const EmployeeList = () => {
             <td>{employee.email}</td>
             <td>
               <button type="button" onClick={handleClick} name="view" value={employee.eid}>View</button>
-              <button type="button" onClick={handleClick} name="edit" value={employee.eid}>Edit</button>
+              <button type="button" onClick={handleClick} name="update" value={employee.eid}>Update</button>
               <button type="button" onClick={handleClick} name="delete" value={employee.eid}>Delete</button>
             </td>
           </tr>
