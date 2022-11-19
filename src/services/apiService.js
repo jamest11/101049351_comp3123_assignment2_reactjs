@@ -7,11 +7,11 @@ const axiosInstance = axios.create({
 
 const setAuthHeader = (token) => {
   if(token) {
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
     delete axiosInstance.defaults.headers.common['Authorization'];
   }
-}
+};
 
 const login = async (username, password) => {
   const res = await axiosInstance.post('user/login', { username, password });
@@ -54,5 +54,5 @@ const deleteEmployee = async (eid) => {
   return res;
 };
 
-const exports = { axiosInstance, setAuthHeader, login, register, getEmployees, getEmployee, addEmployee, updateEmployee, deleteEmployee };
+const exports = { setAuthHeader, login, register, getEmployees, getEmployee, addEmployee, updateEmployee, deleteEmployee };
 export default exports;
