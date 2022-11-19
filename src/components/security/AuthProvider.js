@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { createContext, useContext, useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import apiService from '../../services/apiService';
 
 const AuthContext = createContext();
 
@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   if(token){
-    axios.defaults.headers.get['Authorization'] = `Bearer ${token}`;
+    apiService.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
 
   const navigate = useNavigate();
@@ -16,11 +16,11 @@ const AuthProvider = ({ children }) => {
   const handleLogin = (jwt_token) => {
     setToken(jwt_token);
     localStorage.setItem('token', jwt_token);
-    axios.defaults.headers.get['Authorization'] = `Bearer ${jwt_token}`;
+    apiService.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${jwt_token}`;
     navigate('/');
   };
 
-  const handleLogout = () => {
+  const handleLogout = (msg) => {
     localStorage.removeItem('token');
     setToken(null);
     navigate('/login');
@@ -49,5 +49,5 @@ export { useAuth };
   /*useEffect(() => {
     const token = localStorage.getItem('token');
     setToken(token);
-    axios.defaults.headers.get['Authorization'] = `Bearer ${token}`
+    axios.defaults. headers.common['Authorization'] = `Bearer ${token}`
   }, []);*/
