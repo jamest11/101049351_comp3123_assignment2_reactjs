@@ -15,7 +15,7 @@ const App = () => {
           <Route
             path="/"
             element={
-              <PrivateRoute><Home /></PrivateRoute>
+              <PrivateRoute><Layout><Home /></Layout></PrivateRoute>
             } />
           <Route
             path="add-employee"
@@ -31,24 +31,17 @@ const App = () => {
             path="view-employee/:eid"
             element={
               <PrivateRoute><EmployeeView /></PrivateRoute>
-            } 
-          />
+            } />
           <Route 
             path="/login" 
             element={
-              <Layout>
-                <Login />
-              </Layout>
-            }
-          />
+              <Layout><Login /></Layout>
+            } />
           <Route 
             path="/register" 
             element={
-              <Layout>
-                <Register />
-              </Layout>
-            } 
-          />
+              <Layout><Register /></Layout>
+            } />
         </Routes>
       </AuthContextProvider>
   );

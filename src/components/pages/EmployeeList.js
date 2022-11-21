@@ -1,7 +1,9 @@
-import React, { useState, useEffect} from 'react';
+import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper, Button, FormGroup } from '@mui/material';
 import apiService from '../../services/apiService';
 import { useAuth } from '../security/AuthContextProvider';
+
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -34,30 +36,34 @@ const EmployeeList = () => {
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {employees.map((employee) => (
-          <tr key={employee._id}>
-            <td>{employee.first_name}</td>
-            <td>{employee.last_name}</td>
-            <td>{employee.email}</td>
-            <td>
-              <button type="button" onClick={handleClick} name="view" value={employee.eid}>View</button>
-              <button type="button" onClick={handleClick} name="update" value={employee.eid}>Update</button>
-              <button type="button" onClick={handleClick} name="delete" value={employee.eid}>Delete</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>First Name</TableCell>
+            <TableCell>Last Name</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {employees.map((employee) => (
+            <TableRow key={employee._id}>
+              <TableCell>{employee.first_name}</TableCell>
+              <TableCell>{employee.last_name}</TableCell>
+              <TableCell>{employee.email}</TableCell>
+              <TableCell>
+                <FormGroup row sx={{ gap: 1 }}>
+                  <Button onClick={handleClick} name="view" value={employee.eid} variant="contained" size="small">View</Button>
+                  <Button onClick={handleClick} name="update" value={employee.eid} variant="contained" size="small">Update</Button>
+                  <Button onClick={handleClick} name="delete" value={employee.eid} variant="contained" size="small" color="secondary">Delete</Button>
+                </FormGroup>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

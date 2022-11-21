@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import apiService from '../../services/apiService';
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Box, TextField, Typography, Avatar, FormGroup, Paper } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import apiService from '../../services/apiService';
 import Div from '../common/Div';
 
 const Register = () => {
@@ -15,10 +15,6 @@ const Register = () => {
       .catch(err => {
         setError('username', { type: 'server', message: 'Username in use' });
       });
-  };
-
-  const handleClick = () => {
-    navigate('/login');
   };
 
   return (
@@ -100,7 +96,7 @@ const Register = () => {
           </FormGroup>
           <FormGroup row sx={{ gap: 2, my: 2 }}>
             <Button type="submit" variant="contained" color="primary">Register</Button>
-            <Button onClick={handleClick} variant="contained" color="secondary">Cancel</Button>
+            <Button component={Link} to="/login" variant="contained" color="secondary">Cancel</Button>
           </FormGroup>
         </Box>
       </Paper>
