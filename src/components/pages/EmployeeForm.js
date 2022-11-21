@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiService from '../../services/apiService';
+import { useAuth } from '../security/AuthContextProvider';
 
 const EmployeeForm = () => {
-
-  const { eid } = useParams();
 
   useEffect(() => {
     document.title = 'Employee Form';  
   }, []);
+
+  const { eid } = useParams();
+  const { checkAuth } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,9 +22,11 @@ const EmployeeForm = () => {
       });
     };
     if(eid){
-      fetchData().catch(console.error);
+      fetchData()
+        .catch(checkAuth)  
+        .catch(console.error);
     }
-  }, [eid]);
+  }, [eid, checkAuth]);
 
   const navigate = useNavigate();
 
@@ -38,13 +42,13 @@ const EmployeeForm = () => {
     if(eid) {
       apiService.updateEmployee(eid, formData)
         .then(() => navigate('/', { state: { message: 'Updated employee' } }))
-        .catch(err => console.log(err));
+        .catch(console.error);
 
     } 
     else {
       apiService.addEmployee(formData)
         .then(() => navigate('/', { state: { message: 'Added new employee' } }))
-        .catch(err => console.log(err));
+        .catch(console.error);
     }
     
   };

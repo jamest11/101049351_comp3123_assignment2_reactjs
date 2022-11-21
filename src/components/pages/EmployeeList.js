@@ -1,9 +1,11 @@
 import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../services/apiService';
+import { useAuth } from '../security/AuthContextProvider';
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
+  const { checkAuth } = useAuth();
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -12,8 +14,10 @@ const EmployeeList = () => {
   };
 
   useEffect(() => {
-    fetchData().catch(console.error);
-  }, []);
+    fetchData()
+      .catch(checkAuth)
+      .catch(console.error);
+  }, [checkAuth]);
 
   const handleClick = (event) => {
     if(event.target.name === 'view') {
@@ -24,8 +28,8 @@ const EmployeeList = () => {
     }
     else if (event.target.name === 'delete') {
       apiService.deleteEmployee(event.target.value)
-        .then(() => fetchData())
-        .catch(err => console.log(err));
+        .then(fetchData)
+        .catch(console.error);
     }
   };
 

@@ -1,21 +1,28 @@
 import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../security/AuthProvider';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../security/AuthContextProvider';
 import EmployeeList from './EmployeeList';
 
 const Home = () => {
-  let location = useLocation();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = 'Home';  
   }, []);
 
+  const location = useLocation();
   const { handleLogout } = useAuth();
+
+  const handleClick = (event) => {
+    handleLogout();
+    navigate('/login');
+  };
 
   return (
     <div>
-      <Link to="add-employee">Add Employee</Link>
-      <Link onClick={() => handleLogout('Logged out')}>Logout</Link>
+      <Link to="/add-employee">Add Employee</Link>
+      <Link onClick={handleClick}>Logout</Link>
       { location.state && location.state.message && (
           <div>{location.state.message}</div>
       )}

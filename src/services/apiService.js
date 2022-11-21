@@ -13,45 +13,38 @@ const setAuthHeader = (token) => {
   }
 };
 
-const login = async (username, password) => {
-  const res = await axiosInstance.post('user/login', { username, password });
-  return res;
+const login = async (data) => {
+  return await axiosInstance.post('user/login', data);
 };
 
-const register = async (username, email, password) => {
-  const res = await axiosInstance.post('user/signup', { username, email, password });
-  return res;
+const register = async (data) => {
+  return await axiosInstance.post('user/signup', data);
 };
 
 const getEmployees = async () => {
-  const res = await axiosInstance.get('emp/employees');
-  return res;
+  return await axiosInstance.get('emp/employees');
 };
 
 const getEmployee = async (eid) => {
-  const res = await axiosInstance.get(`emp/employees/${eid}`);
-  return res;
+  return await axiosInstance.get(`emp/employees/${eid}`);
 };
 
 const addEmployee = async (data) => {
-  const res = await axiosInstance.post('emp/employees', { 
-    first_name: data.first_name, 
-    last_name: data.last_name, 
+  return await axiosInstance.post('emp/employees', {
+    first_name: data.first_name,
+    last_name: data.last_name,
     email: data.email,
     gender: 'Male',
     salary: 10000
   });
-  return res;
 };
 
 const updateEmployee = async (eid, data) => {
-  const res = await axiosInstance.put(`emp/employees/${eid}`, data);
-  return res;
+  return await axiosInstance.put(`emp/employees/${eid}`, data);
 };
 
 const deleteEmployee = async (eid) => {
-  const res = await axiosInstance.delete(`emp/employees/${eid}`);
-  return res;
+  return await axiosInstance.delete(`emp/employees/${eid}`);
 };
 
 const exports = { setAuthHeader, login, register, getEmployees, getEmployee, addEmployee, updateEmployee, deleteEmployee };

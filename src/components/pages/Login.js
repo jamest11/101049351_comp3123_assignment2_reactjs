@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import apiService from '../../services/apiService';
-import { useAuth } from "../security/AuthProvider";
+import { useAuth } from "../security/AuthContextProvider";
+import { useForm } from "react-hook-form";
+import {Button, Box, Paper, TextField, Typography, FormGroup, Avatar} from '@mui/material';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import Div from "../common/Div";
 
 const Login = () => {
 
@@ -9,58 +13,76 @@ const Login = () => {
     document.title = 'Login';  
   }, []);
   
+  const { register, handleSubmit, setError, formState: { errors } } = useForm();
   const { token, handleLogin } = useAuth();
-  
+  const navigate = useNavigate();
   const [message, setMessage] = useState();
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
 
   if(token) {
     return (<Navigate to="/" replace />);
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    apiService.login(formData.username, formData.password)
-      .then(res => handleLogin(res.data.jwt_token))
+  const onSubmit = (data) => {
+    apiService.login(data)
+      .then(res => {
+        handleLogin(res.data.jwt_token);
+        navigate('/');
+      })
       .catch(err => setMessage(err.response.data.message));
   };
 
-  const handleChange = (event) => {
-    setFormData(oldValues => ({
-      ...oldValues, 
-      [event.target.name]: event.target.value
-    }));
+  const handleClick = () => {
+    navigate('/register');
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          name= "username"
-          type= "text"
-          onChange={handleChange}
-          placeholder= "Enter Username"/>
-        <input
-          name="password"
-          type="password"
-          onChange={handleChange}
-          placeholder="Enter Password"/>
-
-        <input 
-          name="submit"
-          type="submit"
-          value="Login" />
-      </form>
-
-      {message && (
-        <div>Error: {message}</div>
-      )}  
-      
-    </div>
+    <Div className="FlexColumn" sx={{ mt: 2 }}>
+      <Avatar sx={{ backgroundColor: 'primary.main' }}>
+        <LoginOutlinedIcon />
+      </Avatar>
+      <Typography variant="h4" component="h4" sx={{ my: 1 }}>Login</Typography>
+      <Paper>
+        <Box
+          sx={{ px: 3, py: 1 }}
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          autoComplete="off"
+        >
+          <FormGroup row sx={{gap: 2, my: 2}}>
+            <TextField
+              error={!!errors.username}
+              variant="outlined"
+              label="Username"
+              helperText={errors.username?.message}
+              {...register('username', {
+                required: {
+                  value: true,
+                  message: 'Username is required'
+                }
+              })}
+            />
+            <TextField
+              error={!!errors.password}
+              variant="outlined"
+              type="password"
+              label="Password"
+              helperText={errors.password?.message}
+              {...register('password', {
+                required: {
+                  value: true,
+                  message: 'Password is required'
+                }
+              })}
+            />
+          </FormGroup>
+          <FormGroup row sx={{ gap: 2, my: 2 }}>
+            <Button type="submit" variant="contained" color="primary">Login</Button>
+            <Button variant="contained" onClick={handleClick} color="secondary">Register</Button>
+          </FormGroup>
+        </Box>
+      </Paper>
+    </Div>
   );
 };
 

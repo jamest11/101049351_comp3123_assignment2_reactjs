@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import apiService from '../../services/apiService';
+import { useAuth } from "../security/AuthContextProvider";
 
 const EmployeeView = () => {
   const { eid } = useParams();
   const [employee, setEmployee] = useState();
+  const { checkAuth } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await apiService.getEmployee(eid);
       setEmployee(res.data);
     };
-    fetchData().catch(console.error);
-  }, [eid]);
+    fetchData()
+      .catch(checkAuth)
+      .catch(console.error);
+  }, [eid, checkAuth]);
 
   return (
     <>

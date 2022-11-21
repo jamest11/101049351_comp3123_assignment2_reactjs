@@ -1,41 +1,56 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/pages/Login';
 import Home from './components/pages/Home';
-import ProtectedRoute from './components/security/ProtectedRoute';
-import AuthProvider from './components/security/AuthProvider';
+import PrivateRoute from './components/security/PrivateRoute';
+import AuthContextProvider from './components/security/AuthContextProvider';
 import EmployeeForm from './components/pages/EmployeeForm';
 import EmployeeView from './components/pages/EmployeeView';
-import './App.css';
+import Register from './components/pages/Register';
+import Layout from './components/pages/Layout';
 
 const App = () => {
   return (
-    <div className="App">
-      <AuthProvider>
+      <AuthContextProvider>
         <Routes>
           <Route
             path="/"
             element={
-              <ProtectedRoute><Home /></ProtectedRoute>
+              <PrivateRoute><Home /></PrivateRoute>
             } />
           <Route
             path="add-employee"
             element={
-              <ProtectedRoute><EmployeeForm /></ProtectedRoute>
+              <PrivateRoute><EmployeeForm /></PrivateRoute>
             } />
           <Route
             path="update-employee/:eid"
             element={
-              <ProtectedRoute><EmployeeForm /></ProtectedRoute>
+              <PrivateRoute><EmployeeForm /></PrivateRoute>
             } />
           <Route
             path="view-employee/:eid"
             element={
-              <ProtectedRoute><EmployeeView /></ProtectedRoute>
-            } />
-          <Route path="/login" element={<Login />} />
+              <PrivateRoute><EmployeeView /></PrivateRoute>
+            } 
+          />
+          <Route 
+            path="/login" 
+            element={
+              <Layout>
+                <Login />
+              </Layout>
+            }
+          />
+          <Route 
+            path="/register" 
+            element={
+              <Layout>
+                <Register />
+              </Layout>
+            } 
+          />
         </Routes>
-      </AuthProvider>
-    </div>
+      </AuthContextProvider>
   );
 };
 
