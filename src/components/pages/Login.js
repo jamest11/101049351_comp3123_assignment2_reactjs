@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {Navigate, useLocation, useNavigate} from 'react-router-dom';
 import apiService from '../../services/apiService';
 import { useAuth } from "../security/AuthContextProvider";
 import { useForm } from "react-hook-form";
-import { Button, Box, Paper, TextField, Typography, FormGroup, Avatar } from '@mui/material';
+import {Button, Box, Paper, TextField, Typography, FormGroup, Avatar, Alert} from '@mui/material';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import Div from "../common/Div";
 
@@ -15,8 +15,13 @@ const Login = () => {
   
   const { register, handleSubmit, setError, formState: { errors } } = useForm();
   const { token, handleLogin } = useAuth();
-  const navigate = useNavigate();
   const [message, setMessage] = useState();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    setMessage(location.state?.message);
+  },[location.state]);
 
   if(token) {
     return (<Navigate to="/" replace />);
@@ -28,7 +33,7 @@ const Login = () => {
         handleLogin(res.data.jwt_token);
         navigate('/');
       })
-      .catch(err => setMessage(err.response.data.message));
+      .catch(console.error);
   };
 
   const handleClick = () => {
@@ -36,11 +41,16 @@ const Login = () => {
   };
 
   return (
-    <Div className="FlexColumn" sx={{ mt: 2 }}>
+    <Div className="FlexColumn" sx={{ mt: 2, alignItems: 'center'}}>
       <Avatar sx={{ backgroundColor: 'primary.main' }}>
         <LoginOutlinedIcon />
       </Avatar>
       <Typography variant="h4" component="h4" sx={{ my: 1 }}>Login</Typography>
+
+      {message && (
+        <Alert onClose={() => setMessage(undefined)} severity={message.severity} sx={{ mb: 2 }}>{message.text}</Alert>
+      )}
+
       <Paper>
         <Box
           sx={{ px: 3, py: 1 }}

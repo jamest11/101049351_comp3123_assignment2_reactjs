@@ -1,18 +1,31 @@
 import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Paper, Button, FormGroup } from '@mui/material';
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableContainer,
+  Paper,
+  Button,
+  FormGroup,
+  CircularProgress, LinearProgress
+} from '@mui/material';
 import apiService from '../../services/apiService';
 import { useAuth } from '../security/AuthContextProvider';
 
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { checkAuth } = useAuth();
   const navigate = useNavigate();
 
   const fetchData = async () => {
     const res = await apiService.getEmployees();
     setEmployees(res.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -37,6 +50,9 @@ const EmployeeList = () => {
 
   return (
     <TableContainer component={Paper}>
+      {loading ? (
+        <LinearProgress />
+      ) : (
       <Table>
         <TableHead>
           <TableRow>
@@ -62,7 +78,7 @@ const EmployeeList = () => {
             </TableRow>
           ))}
         </TableBody>
-      </Table>
+      </Table>)}
     </TableContainer>
   );
 };

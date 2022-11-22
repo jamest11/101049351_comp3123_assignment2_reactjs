@@ -18,7 +18,7 @@ const Register = () => {
   };
 
   return (
-    <Div className="FlexColumn" sx={{ mt: 2 }}>
+    <Div className="FlexColumn" sx={{ mt: 2, alignItems: 'center' }}>
       <Avatar sx={{ backgroundColor: 'primary.main' }}>
         <LockOutlinedIcon />
       </Avatar>

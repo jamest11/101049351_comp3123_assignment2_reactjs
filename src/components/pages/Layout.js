@@ -1,10 +1,10 @@
-import { Box, Container, ThemeProvider, CssBaseline } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { createTheme } from "@mui/material/styles";
 import NavBar from '../common/NavBar';
 
 const appTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: {
       main: '#00897f',
     },
@@ -19,7 +19,7 @@ const appTheme = createTheme({
     MuiDiv: {
       styleOverrides: {
         root: {
-          '&.FlexColumn': { display: 'flex', flexDirection: 'column', alignItems: 'center' }
+          '&.FlexColumn': { display: 'flex', flexDirection: 'column' }
         }
       }
     }
@@ -28,16 +28,14 @@ const appTheme = createTheme({
 
 const Layout = ({ children }) => {
   return (
-    <ThemeProvider theme={appTheme}>
-      <CssBaseline />
-      <Box>
-        <NavBar />
-        <Container component="main">
-          { children }
-        </Container>
-      </Box>
-    </ThemeProvider>
+    <Box>
+      <NavBar />
+      <Container component="main">
+        { children }
+      </Container>
+    </Box>
   );
 };
 
 export default Layout;
+export { appTheme };
