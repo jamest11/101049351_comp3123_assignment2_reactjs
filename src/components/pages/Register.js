@@ -13,7 +13,7 @@ const Register = () => {
     apiService.register(data)
       .then(() => navigate('/login'))
       .catch(err => {
-        setError('username', { type: 'server', message: 'Username in use' });
+        setError('username', { type: 'server', message: 'Username already in use' });
       });
   };
 
@@ -30,7 +30,6 @@ const Register = () => {
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           autoComplete="off"
-          maxWidth="sm"
         >
           <FormGroup row sx={{ gap: 2, my: 2 }}>
             <TextField

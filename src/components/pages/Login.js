@@ -3,19 +3,16 @@ import {Navigate, useLocation, useNavigate} from 'react-router-dom';
 import apiService from '../../services/apiService';
 import { useAuth } from "../security/AuthContextProvider";
 import { useForm } from "react-hook-form";
-import {Button, Box, Paper, TextField, Typography, FormGroup, Avatar, Alert} from '@mui/material';
+import {Button, Box, Paper, TextField, Typography, FormGroup, Avatar, Alert, CircularProgress} from '@mui/material';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import Div from "../common/Div";
 
 const Login = () => {
 
-  useEffect(() => {
-    document.title = 'Login';  
-  }, []);
-  
   const { register, handleSubmit, setError, formState: { errors } } = useForm();
   const { token, handleLogin } = useAuth();
   const [message, setMessage] = useState();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,12 +25,17 @@ const Login = () => {
   }
 
   const onSubmit = (data) => {
+    setLoading(true);
     apiService.login(data)
       .then(res => {
         handleLogin(res.data.jwt_token);
         navigate('/');
       })
-      .catch(console.error);
+      .catch(err => {
+        setError('username', { type: 'server', message: 'Invalid credentials' });
+        setError('password', { type: 'server', message: 'Invalid credentials' });
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleClick = () => {
@@ -87,7 +89,12 @@ const Login = () => {
             />
           </FormGroup>
           <FormGroup row sx={{ gap: 2, my: 2 }}>
-            <Button type="submit" variant="contained" color="primary">Login</Button>
+            {loading ? (
+                <Button color="primary" disabled><CircularProgress size={24} /></Button>
+              ) : (
+                <Button type="submit" variant="contained" color="primary">Login</Button>
+              )
+            }
             <Button variant="contained" onClick={handleClick} color="secondary">Register</Button>
           </FormGroup>
         </Box>

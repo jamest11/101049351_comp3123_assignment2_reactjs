@@ -1,21 +1,22 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Typography, Button } from "@mui/material";
+import {Typography, Button, Alert} from "@mui/material";
 import EmployeeList from './EmployeeList';
 import Div from "../common/Div";
 
 const Home = () => {
 
-  useEffect(() => {
-    document.title = 'Home';  
-  }, []);
-
   const location = useLocation();
+  const [message, setMessage] = useState();
+
+  useEffect(() => {
+    setMessage(location.state?.message);
+  },[location.state]);
 
   return (
     <Div className="FlexColumn" sx={{ alignItems: 'flex-start', width: 'fit-content', mx: 'auto' }}>
-      { location.state && location.state.message && (
-          <div>{location.state.message}</div>
+      {message && (
+        <Alert onClose={() => setMessage(undefined)} severity={message.severity} sx={{ my: 2 }}>{message.text}</Alert>
       )}
       <Typography variant="h4" component="h4" sx={{ my: 1 }}>Employees</Typography>
       <Div sx={{ minWidth: { md: 800 } }}>

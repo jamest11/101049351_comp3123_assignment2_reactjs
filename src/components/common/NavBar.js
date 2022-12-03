@@ -6,9 +6,14 @@ const NavBar = () => {
   const { token, handleLogout } = useAuth();
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    handleLogout();
-    navigate('/login', { state: { message: { text: 'Logged out', severity: 'success' }}});
+  const handleClick = (event) => {
+    if(event.target.name === 'logout') {
+      handleLogout();
+      navigate('/login', {state: {message: {text: 'Logged out', severity: 'success'}}});
+    }
+    else if(event.target.name === 'employee-list') {
+      navigate('/');
+    }
   };
 
   return (
@@ -19,7 +24,11 @@ const NavBar = () => {
             Employee Manager
           </Typography>
           {token && (
-            <Button color="inherit" onClick={handleClick}>Logout</Button>)}
+            <>
+              <Button color="inherit" onClick={handleClick} name="employee-list">Employees</Button>
+              <Button color="inherit" onClick={handleClick} name="logout">Logout</Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
