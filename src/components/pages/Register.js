@@ -105,19 +105,3 @@ const Register = () => {
 };
 
 export default Register;
-
-/*
-            <Input
-              placeholder="Email Address" 
-              {...register('email', { 
-                required: true,
-                pattern: {
-                  value: /\S+@\S+\.\S+/,
-                  message: 'Invalid email format'
-                },
-                maxLength:{
-                  value: 50,
-                  message: 'Max email length is 50 characters'
-                } 
-            })} />
-*/
