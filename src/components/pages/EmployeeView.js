@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import apiService from '../../services/apiService';
 import { useAuth } from "../security/AuthContextProvider";
+import Div from "../common/Div";
+import {Button, Paper, Typography} from "@mui/material";
 
 const EmployeeView = () => {
   const { eid } = useParams();
   const [employee, setEmployee] = useState();
   const { checkAuth } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,18 +21,22 @@ const EmployeeView = () => {
       .catch(console.error);
   }, [eid, checkAuth]);
 
+
   return (
-    <>
-      <h2>Employee Profile</h2>
+    <Div className="FlexColumn" sx={{ alignItems: 'center', width: 'fit-content', mx: 'auto' }}>
+      <Typography variant="h4" component="h4" sx={{ my: 1 }}>Employee Profile</Typography>
       {employee && (
-        <>
-          <p>Name: {employee.first_name} {employee.last_name}</p>
-          <p>Email: {employee.email}</p>
-          <p>Gender: {employee.gender}</p>
-          <p>Salary: {employee.salary}</p>
-        </>
+        <Paper sx={{ padding: 3 }}>
+          <Div className="FlexColumn" sx={{ alignItems: 'flex-start', gap: 2}}>
+            <span><strong>Name</strong>: {employee.first_name} {employee.last_name}</span>
+            <span><strong>Email</strong>: {employee.email}</span>
+            <span><strong>Gender</strong>: {employee.gender}</span>
+            <span><strong>Salary</strong>: ${employee.salary}</span>
+            <Button onClick={() => navigate('/')} variant="contained">Back</Button>
+          </Div>
+        </Paper>
       )}
-    </> 
+    </Div>
   );
 };
 

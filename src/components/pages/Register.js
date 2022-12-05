@@ -75,7 +75,8 @@ const Register = () => {
                 required: {
                   value: true,
                   message: 'Password is required'
-                }
+                },
+                minLength: 6
               })}
             />
             <TextField

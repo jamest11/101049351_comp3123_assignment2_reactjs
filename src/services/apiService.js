@@ -14,37 +14,31 @@ const setAuthHeader = (token) => {
 };
 
 const login = async (data) => {
-  return await axiosInstance.post('user/login', data);
+  return axiosInstance.post('user/login', data);
 };
 
 const register = async (data) => {
-  return await axiosInstance.post('user/signup', data);
+  return axiosInstance.post('user/signup', data);
 };
 
 const getEmployees = async () => {
-  return await axiosInstance.get('emp/employees');
+  return axiosInstance.get('emp/employees');
 };
 
 const getEmployee = async (eid) => {
-  return await axiosInstance.get(`emp/employees/${eid}`);
+  return axiosInstance.get(`emp/employees/${eid}`);
 };
 
 const addEmployee = async (data) => {
-  return await axiosInstance.post('emp/employees', {
-    first_name: data.first_name,
-    last_name: data.last_name,
-    email: data.email,
-    gender: 'Male',
-    salary: 10000
-  });
+  return axiosInstance.post('emp/employees', data);
 };
 
 const updateEmployee = async (eid, data) => {
-  return await axiosInstance.put(`emp/employees/${eid}`, data);
+  return axiosInstance.put(`emp/employees/${eid}`, data);
 };
 
 const deleteEmployee = async (eid) => {
-  return await axiosInstance.delete(`emp/employees/${eid}`);
+  return axiosInstance.delete(`emp/employees/${eid}`);
 };
 
 const exports = { setAuthHeader, login, register, getEmployees, getEmployee, addEmployee, updateEmployee, deleteEmployee };

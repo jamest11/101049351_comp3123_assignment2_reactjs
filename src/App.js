@@ -6,7 +6,7 @@ import AuthContextProvider from './components/security/AuthContextProvider';
 import EmployeeForm from './components/pages/EmployeeForm';
 import EmployeeView from './components/pages/EmployeeView';
 import Register from './components/pages/Register';
-import Layout, {appTheme} from './components/pages/Layout';
+import Layout, {appTheme} from './components/common/Layout';
 import {CssBaseline, ThemeProvider} from "@mui/material";
 
 const App = () => {

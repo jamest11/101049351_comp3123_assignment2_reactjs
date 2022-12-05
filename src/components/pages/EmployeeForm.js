@@ -1,9 +1,18 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiService from '../../services/apiService';
 import { useAuth } from '../security/AuthContextProvider';
 import Div from "../common/Div";
-import { Button, Box, TextField, Typography, FormGroup, Paper } from '@mui/material';
+import {
+  Button,
+  Box,
+  TextField,
+  Typography,
+  FormGroup,
+  Paper,
+  FormControl,
+  InputLabel, NativeSelect
+} from '@mui/material';
 import {useForm} from "react-hook-form";
 
 const EmployeeForm = () => {
@@ -12,13 +21,17 @@ const EmployeeForm = () => {
   const { checkAuth } = useAuth();
   const { register, handleSubmit, setError, setValue, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const [gender, setGender] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await apiService.getEmployee(eid);
-      setValue("first_name", res.data.first_name, { shouldTouch: true });
+      setValue("first_name", res.data.first_name);
       setValue("last_name", res.data.last_name);
       setValue("email", res.data.email);
+      setValue("salary", res.data.salary);
+      setValue("gender", res.data.gender);
+      setGender('Other');
     };
     if(eid){
       fetchData()
@@ -61,7 +74,7 @@ const EmployeeForm = () => {
               error={!!errors.first_name}
               variant="outlined"
               label="First Name"
-              InputLabelProps={{ shrink: !!eid  }}
+              InputLabelProps={(eid ? { shrink: !!eid  } : {})}
               helperText={errors.first_name?.message}
               {...register('first_name', {
                 required: {
@@ -74,7 +87,7 @@ const EmployeeForm = () => {
               error={!!errors.last_name}
               variant="outlined"
               label="Last Name"
-              InputLabelProps={{ shrink: !!eid  }}
+              InputLabelProps={(eid ? { shrink: !!eid  } : {})}
               helperText={errors.last_name?.message}
               {...register('last_name', {
                 required: {
@@ -90,7 +103,7 @@ const EmployeeForm = () => {
               variant="outlined"
               label="Email Address"
               sx={{ flex: 2 }}
-              InputLabelProps={{ shrink: !!eid  }}
+              InputLabelProps={(eid ? { shrink: !!eid  } : {})}
               helperText={errors.email?.message}
               {...register('email', {
                 required: {
@@ -103,6 +116,45 @@ const EmployeeForm = () => {
                 }
               })}
             />
+          </FormGroup>
+          <FormGroup row sx={{ gap: 2, my: 2 }}>
+            <TextField
+              error={!!errors.salary}
+              variant="outlined"
+              label="Salary ($)"
+              sx={{ flex: 2 }}
+              InputLabelProps={(eid ? { shrink: !!eid  } : {})}
+              helperText={errors.salary?.message}
+              {...register('salary', {
+                required: {
+                  value: true,
+                  message: 'Salary is required'
+                },
+                pattern: {
+                  value: /^\d+$/,
+                  message: 'Invalid salary'
+                },
+                min: 10
+              })}
+            />
+          </FormGroup>
+          <FormGroup row sx={{ gap: 2, my: 2 }}>
+            <FormControl>
+              <InputLabel variant="standard" htmlFor="gender-select">Gender</InputLabel>
+              <NativeSelect
+                defaultValue={gender}
+                sx={{ width: 150 }}
+                inputProps={{
+                  name:'gender',
+                  id:'gender-select'
+                }}
+                {...register("gender")}
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </NativeSelect>
+            </FormControl>
           </FormGroup>
           <FormGroup row sx={{ gap: 2, my: 2, justifyContent: 'flex-end' }}>
             <Button

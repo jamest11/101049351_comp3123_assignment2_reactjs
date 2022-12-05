@@ -1,6 +1,6 @@
 import { Box, Container } from '@mui/material';
 import { createTheme } from "@mui/material/styles";
-import NavBar from '../common/NavBar';
+import NavBar from './NavBar';
 
 const appTheme = createTheme({
   palette: {

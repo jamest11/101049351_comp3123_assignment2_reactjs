@@ -24,7 +24,7 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const checkAuth = (err) => {
-    if(err.response.status === 401) {
+    if(err.response?.status === 401) {
       handleLogout();
     }
     else{
